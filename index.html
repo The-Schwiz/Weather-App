@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/style.css">
+    <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <h1>The Weather Dashboard</h1>
+    </header>
+    <main class="main-container">
+        <!-- left column -->
+        <section class="left-col">
+            <h2>Search For a City:</h2>
+            <form id="city-search-form">
+                <input name="cityInput" id="city-search-input" type="text" placeholder=" Type a city name">
+                <button type="submit">Submit</button>
+            </form>
+            <hr>
+            <div id="previous-search">
+                
+            </div>
+        </section>
+        <!-- Right Col -->
+        <section class="right-col">
+            <div class="city-card">
+                <h2 id="city-header">City not selected</h2>
+                <ul>
+                    <li class="city-temp">Temp: <span id="city-temp">-</span></li>
+                    <li class="city-wind">Wind: <span id="city-wind">-</span></li>
+                    <li class="city-humidity">Humidity: <span id="city-humidity">-</span></li>
+                </ul>
+            </div>
+
+            <div class="forecast-container">
+                <h2 class="five-day-header">5-Day Forecast:</h2>
+                <div class="five-day-forecast">
+                    <div id="day1" class="forecast-day-card">
+                        <h3 class="date-of-day">9/14/2022</h3>
+                        <p><img src="http://openweathermap.org/img/w/04n.png"></p>
+                        <ul>
+                            <li class="temp">Temp: <span>-</span></li>
+                            <li class="wind">Wind: <span>-</span></li>
+                            <li class="humidity">Humidity: <span>-</span></li>
+                        </ul>
+                    </div>
+                    <div id="day2" class="forecast-day-card">
+                        <h3 class="date-of-day">9/14/2022</h3>
+                        <p>☀️</p>
+                        <ul>
+                            <li class="temp">Temp: <span>-</span></li>
+                            <li class="wind">Wind: <span>-</span></li>
+                            <li class="humidity">Humidity: <span>-</span></li>
+                        </ul>
+                    </div>
+                    <div id="day3" class="forecast-day-card">
+                        <h3 class="date-of-day">9/14/2022</h3>
+                        <p>☀️</p>
+                        <ul>
+                            <li class="temp">Temp: <span>-</span></li>
+                            <li class="wind">Wind: <span>-</span></li>
+                            <li class="humidity">Humidity: <span>-</span></li>
+                        </ul>
+                    </div>
+                    <div id="day4" class="forecast-day-card">
+                        <h3 class="date-of-day">9/14/2022</h3>
+                        <p>☀️</p>
+                        <ul>
+                            <li class="temp">Temp: <span>-</span></li>
+                            <li class="wind">Wind: <span>-</span></li>
+                            <li class="humidity">Humidity: <span>-</span></li>
+                        </ul>
+                    </div>
+                    <div id="day5" class="forecast-day-card">
+                        <h3 class="date-of-day">9/14/2022</h3>
+                        <p>☀️</p>
+                        <ul>
+                            <li class="temp">Temp: <span>-</span></li>
+                            <li class="wind">Wind: <span>-</span></li>
+                            <li class="humidity">Humidity: <span>-</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="./assets/script.js"></script>
+</body>
+
+</html>
