@@ -16,4 +16,4 @@ Further, I learned how to loop through arrays, and how to break down user input 
 
 ## Usage 
 
-Just click the deployment link and try it out: 
+Just click the deployment link and try it out: https://the-schwiz.github.io/Weather-App/
