@@ -4,15 +4,13 @@ const cityHeaderEl = document.querySelector("#city-header");
 const cityTempEl = document.querySelector("#city-temp");
 const cityWindEl = document.querySelector("#city-wind");
 const cityHumEl = document.querySelector("#city-humidity");
-
+const cityWeatherIconEl = document.querySelector("#city-weather-icon");
 const citySearchFormEl = document.querySelector("#city-search-form");
 const userCityInput = document.querySelector("#searched-cities");
 const previousSearchEl = document.getElementById("previous-search");
 
 let searchHistory = [];
-// const storedCityName = JSON.parse(localStorage.getItem ("cityName")) || [];
 
-// getSearchHistory();
 
 citySearchFormEl.addEventListener('submit', function(e){
     e.preventDefault();
@@ -43,12 +41,10 @@ function addCityToSearchHistory(cityName){
     if (searchHistory.indexOf(cityName) != -1) {
         return;
     } 
-
     searchHistory.push(cityName);
     localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
 
     displaySearchHistory();
-
 }
 
 function loadSearchHistory() {
@@ -58,17 +54,6 @@ function loadSearchHistory() {
     }
     displaySearchHistory();
 }
-
-
-//new way of fetching
-// async function getMealData() {
-//     const response = await fetch("https://www.themealdb.com/api/json/v1/1/categories.php");
-//     const data = await response.json();
-//     console.log(data);
-//     const rightCol = document.querySelector(".right-col");
-//     // rightCol.innerHTML += JSON.stringify(data);
-//     rightCol.innerHTML += data.categories[0].strCategory;
-// }
 
 function searchCityWeather(cityName){
     addCityToSearchHistory(cityName);
@@ -94,31 +79,21 @@ function displayCityWeather(lat, lon, cityName){
       })
       .then(function (data) {
           console.log(data);
+          console.log(data.weather[0].icon);
 
-          // get today's date 
-          // Get city name 
-      
-          //get temp
           const cityTemp = data.main.temp;
-          //get hum. 
           const cityHum = data.main.humidity;
-          // object deconstruction: 
-          // const { temp, humidity } = data.main;
-          //get wind
           const cityWind = data.wind.speed;
           const cityHeader = `${cityName} (${dayjs().format("MM/DD/YYYY")})`;
+          const cityWeatherIcon = data.weather[0].icon;
+          
+          cityWeatherIconEl.setAttribute('src', `http://openweathermap.org/img/w/${cityWeatherIcon}.png`)
           cityHeaderEl.textContent = cityHeader;
           cityTempEl.textContent = cityTemp;
           cityWindEl.textContent = cityWind;
           cityHumEl.textContent = cityHum;
-          
       });
 }
-
-// const cityHeaderEl = document.querySelector("#city-header");
-// const cityTempEl = document.querySelector("#city-temp");
-// const cityWindEl = document.querySelector("#city-wind");
-// const cityHumEl = document.querySelector("#city-humidity");
 
 function displayFiveDayForecast(lat, lon){
     fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`) 
@@ -127,18 +102,20 @@ function displayFiveDayForecast(lat, lon){
       })
       .then(function (data) {
         console.log(data);
+        console.log (data.list[0].weather[0].icon);
 
         const fiveDayDataPoints = data.list; 
         const fiveDaySum = {};
         for (let dataPoint of fiveDayDataPoints) {
             const dateLabel = dataPoint.dt_txt.slice(0, 10);
             console.log(dateLabel);
-            // date label key exists in the obj
             if (dateLabel in fiveDaySum) {
                 fiveDaySum[dateLabel].dataPointsCount += 1;
                 fiveDaySum[dateLabel].tempSum += dataPoint.main.temp;
                 fiveDaySum[dateLabel].windSpeedSum += dataPoint.wind.speed;
                 fiveDaySum[dateLabel].humiditySum += dataPoint.main.humidity;
+                fiveDaySum[dateLabel].weatherIcons.push(dataPoint.weather[0].icon);
+                console.log(dataPoint.weather[0].icon);
                 
             } else {
                 // date label key doesn't exist in the obj
@@ -147,55 +124,15 @@ function displayFiveDayForecast(lat, lon){
                     tempSum: dataPoint.main.temp,
                     windSpeedSum: dataPoint.wind.speed,
                     humiditySum: dataPoint.main.humidity,
-                    icon: dataPoint.icon,
+                    weatherIcons: [ dataPoint.weather[0].icon ] 
                 }
-                console.log(icon)
-                
             }
-            
-        }
-        console.log(fiveDaySum);
-        // const fiveDaySum = {
-        //     '2022-11-21' : {
-        //         dataPointsCount: 8,
-        //         tempSum: 100,
-        //         windSpeedSum: 232,
-        //         humiditySum: 123,
-        //     },
-        //     '2022-11-22' : {
-        //         dataPointsCount: 8,
-        //         tempSum: 100,
-        //         windSpeedSum: 232,
-        //         humiditySum: 123,
-        //     },
-        //     '2022-11-23' : {
-        //         dataPointsCount: 8,
-        //         tempSum: 100,
-        //         windSpeedSum: 232,
-        //         humiditySum: 123,
-        //     },
-        //     '2022-11-24' : {
-        //         dataPointsCount: 8,
-        //         tempSum: 100,
-        //         windSpeedSum: 232,
-        //         humiditySum: 123,
-        //     },
-        //     '2022-11-25' : {
-        //         dataPointsCount: 6,
-        //         tempSum: 100,
-        //         windSpeedSum: 232,
-        //         humiditySum: 123,
-        //     },
-        // }        
-        
-
-        // get average data for each forcasted day
+   
+         // get average data for each forcasted day
         const forecastDaysAverages = [];
 
-        //  [ { date: '2022-11-20', averageTemp: 1212, averageHumidty: 324, averageWind: 123 }  ]
         let dayCount = 0;
         for (let dateLabel in fiveDaySum) {
-
             if (dateLabel === dayjs().format("YYYY-MM-DD")) {
                 continue;
             }
@@ -206,12 +143,14 @@ function displayFiveDayForecast(lat, lon){
             const averageTemp = fiveDaySum[dateLabel].tempSum / fiveDaySum[dateLabel].dataPointsCount;
             const averageWind = fiveDaySum[dateLabel].windSpeedSum / fiveDaySum[dateLabel].dataPointsCount;
             const averageHumidity = fiveDaySum[dateLabel].humiditySum / fiveDaySum[dateLabel].dataPointsCount;
+            const dayIcons = fiveDaySum[dateLabel].weatherIcons;
             
             const averageData = {
                 date: dateLabel,
                 averageTemp: averageTemp,
                 averageWind: averageWind,
-                averageHumidity: averageHumidity
+                averageHumidity: averageHumidity,
+                weatherIcons: dayIcons
             };
 
             forecastDaysAverages.push(averageData);
@@ -225,13 +164,14 @@ function displayFiveDayForecast(lat, lon){
             dayCardEl.querySelector(".temp  > span").textContent = dayData.averageTemp.toFixed(1);
             dayCardEl.querySelector(".wind > span").textContent = dayData.averageWind.toFixed(1);
             dayCardEl.querySelector(".humidity > span").textContent = dayData.averageHumidity.toFixed(1);
-            //round units in lines above
-            //add icons 
-            // Requirement: save cities to local storage and get on load.
-            // hide cards in right col initially
-            // when data is fetching, show loading text / image
+            const weatherIcons = dayData.weatherIcons;
+             // pick the most frequent weather Icon for the given day
+            const mostFreqIcon = getMostFrequentWeatherIcon(weatherIcons)
+
+            dayCardEl.querySelector("img").setAttribute("src", `http://openweathermap.org/img/w/${mostFreqIcon}.png`);
+         
         }
-    });   
+    }});   
 }
 
 
@@ -246,6 +186,35 @@ function capitlizeCityName(cityName) {
     return cityNameCapitalized;
 }
 
+
+/**
+ * Find the most frequent icon from the given icons array.
+ * @param {Array} icons 
+ * @returns most frequent icon
+ */
+function getMostFrequentWeatherIcon(icons) {
+    
+    const iconCounts = {}
+    for (let icon of icons){
+        if (icon in iconCounts) {
+            iconCounts[icon] += 1;
+        } else {
+           iconCounts[icon] = 1; 
+        }
+    } 
+    // scan each key value pair of iconCounts
+    // keep track which has the max frequency
+    let mostFreqIcon = '';
+    let maxIconCount = 0;
+    for (let icon in iconCounts){
+        const count = iconCounts[icon];
+        if (count > maxIconCount) {
+            mostFreqIcon = icon; 
+            maxIconCount = count;
+        }
+    }
+    return mostFreqIcon;
+}
 
 
 loadSearchHistory();
