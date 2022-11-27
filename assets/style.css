@@ -45,9 +45,12 @@ button {
 
 
 .city-card {
-    border: solid black;
     border-radius: 10px;
     padding: 10px;
+    background-color: rgb(41, 41, 146);
+    color: white;
+    box-shadow: 0 0 10px rgb(31, 6, 112);
+    background-image: linear-gradient(to right, rgb(135, 126, 213), rgb(41, 41, 146));
     
 }
 
@@ -81,3 +84,27 @@ ul {
     line-height: 30px;
 }
 
+@media screen and (max-width: 400px){
+
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left-col {
+        width: 80%;
+        margin-right: 10px;
+    }
+    
+    .right-col {
+        width: 80%;
+        margin-top: 15px;
+        text-align: center;
+
+    }
+    .forecast-day-card  {
+        max-width: 130px;
+        align-items: center;
+    }
+}
