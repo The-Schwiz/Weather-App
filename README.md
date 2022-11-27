@@ -12,7 +12,7 @@ Further, I learned how to loop through arrays, and how to break down user input 
 
 ## Screenshots
 
-
+<img width="1438" alt="Screenshot 2022-11-27 at 3 14 04 PM" src="https://user-images.githubusercontent.com/113313870/204157598-c7c1d01b-43a7-4106-af5f-c404bb75405c.png">
 
 ## Usage 
 

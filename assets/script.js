@@ -177,7 +177,7 @@ function displayFiveDayForecast(lat, lon){
              // pick the most frequent weather Icon for the given day
             const mostFreqIcon = getMostFrequentWeatherIcon(weatherIcons)
 
-            dayCardEl.querySelector("img").setAttribute("src", `http://openweathermap.org/img/w/${mostFreqIcon}.png`);
+            dayCardEl.querySelector("img").setAttribute("src", `https://openweathermap.org/img/w/${mostFreqIcon}.png`);
          
         }
     }});   
