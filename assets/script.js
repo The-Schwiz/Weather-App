@@ -62,7 +62,7 @@ function loadSearchHistory() {
 
 function searchCityWeather(cityName){
     addCityToSearchHistory(cityName);
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`)
+    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`)
         .then(function (response) {
             return response.json()
         })
@@ -103,7 +103,7 @@ function displayCityWeather(lat, lon, cityName){
 
 //displys forecast for next five days
 function displayFiveDayForecast(lat, lon){
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`) 
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`) 
       .then(function (response) {
         return response.json()
       })
@@ -177,7 +177,7 @@ function displayFiveDayForecast(lat, lon){
              // pick the most frequent weather Icon for the given day
             const mostFreqIcon = getMostFrequentWeatherIcon(weatherIcons)
 
-            dayCardEl.querySelector("img").setAttribute("src", `http://openweathermap.org/img/w/${mostFreqIcon}.png`);
+            dayCardEl.querySelector("img").setAttribute("src", `https://openweathermap.org/img/w/${mostFreqIcon}.png`);
          
         }
     }});   
