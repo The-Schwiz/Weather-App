@@ -1,0 +1,19 @@
+# The Weather Dashboard
+
+## Description
+
+A simple weather dashboard where a user can search any city and see the average weather for 6 days based on datapoints for every three hours. 
+
+The user search history is saved for easy access the next time they visit the website. 
+
+This site uses HTML, CSS, and Javascript. In this project I learned a lot about fetching API's, storing the data in local storage, and displaying that data to the DOM. I used a lot of arrays and object arrays to achieve this and learned a lot about storing and accessing data. 
+
+Further, I learned how to loop through arrays, and how to break down user input so I could capitalize selected letters before using Javascript. 
+
+## Screenshots
+
+
+
+## Usage 
+
+Just click the deployment link and try it out: 

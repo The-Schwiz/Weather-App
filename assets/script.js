@@ -9,21 +9,24 @@ const citySearchFormEl = document.querySelector("#city-search-form");
 const userCityInput = document.querySelector("#searched-cities");
 const previousSearchEl = document.getElementById("previous-search");
 
+//empty array for search history 
 let searchHistory = [];
 
-
+//event listening for form submit
 citySearchFormEl.addEventListener('submit', function(e){
     e.preventDefault();
     console.log(e.target[0].value);
     const inputValue = e.target[0].value;
+    //validation for capitalizing city names 
     if (inputValue){
         const capitalizedName = capitlizeCityName(inputValue);
         searchCityWeather(capitalizedName);
     }
 })
 
+//creates buttons for every new search input 
 function displaySearchHistory() {
-    console.log ("im inside display search history");
+    //clears previous search so repeat items don't append 
     previousSearchEl.innerHTML = "";
     for (i=0; i < searchHistory.length; i++){
         const btn = document.createElement('button');
@@ -31,6 +34,7 @@ function displaySearchHistory() {
         btn.setAttribute("data-search", buttonCityName);
         btn.textContent = buttonCityName;
         btn.addEventListener("click", function(e){                          
+            //enables search using button click in search history 
             searchCityWeather(buttonCityName);
         });
         previousSearchEl.append(btn);
@@ -47,6 +51,7 @@ function addCityToSearchHistory(cityName){
     displaySearchHistory();
 }
 
+//if old searches contains data, let oldSearches = searchHistory
 function loadSearchHistory() {
     oldSearches = JSON.parse(localStorage.getItem("searchHistory"));
     if (oldSearches != null){
@@ -72,6 +77,7 @@ function searchCityWeather(cityName){
         
 }
 
+//displays today's weather in top city weather card 
 function displayCityWeather(lat, lon, cityName){
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`)
       .then(function (response) {
@@ -95,6 +101,7 @@ function displayCityWeather(lat, lon, cityName){
       });
 }
 
+//displys forecast for next five days
 function displayFiveDayForecast(lat, lon){
     fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`) 
       .then(function (response) {
@@ -106,6 +113,7 @@ function displayFiveDayForecast(lat, lon){
 
         const fiveDayDataPoints = data.list; 
         const fiveDaySum = {};
+        //uses date as key in object array and sums data/day so we can average it out for each day
         for (let dataPoint of fiveDayDataPoints) {
             const dateLabel = dataPoint.dt_txt.slice(0, 10);
             console.log(dateLabel);
@@ -131,6 +139,7 @@ function displayFiveDayForecast(lat, lon){
          // get average data for each forcasted day
         const forecastDaysAverages = [];
 
+        //avergaes out data in each day to display single weather stat for each data point
         let dayCount = 0;
         for (let dateLabel in fiveDaySum) {
             if (dateLabel === dayjs().format("YYYY-MM-DD")) {
@@ -174,7 +183,7 @@ function displayFiveDayForecast(lat, lon){
     }});   
 }
 
-
+//capitalizes searched city names 
 function capitlizeCityName(cityName) {
     const cityWords = cityName.split(' ');
     const cityWordsCapitalized = [];
@@ -186,12 +195,7 @@ function capitlizeCityName(cityName) {
     return cityNameCapitalized;
 }
 
-
-/**
- * Find the most frequent icon from the given icons array.
- * @param {Array} icons 
- * @returns most frequent icon
- */
+//gets most frequent weather icon for each day
 function getMostFrequentWeatherIcon(icons) {
     
     const iconCounts = {}
